@@ -43,14 +43,64 @@
             this.refreshMarketButton = new System.Windows.Forms.Button();
             this.dayTableGroupBox = new System.Windows.Forms.GroupBox();
             this.dayTableDataGridView = new System.Windows.Forms.DataGridView();
-            this.PETotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Percentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CETotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.strikePriceTableGroupBox = new System.Windows.Forms.GroupBox();
+            this.strikePriceTableDataGridView = new System.Windows.Forms.DataGridView();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CETotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Percentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PETotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ceRemarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ceOICHGDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cLTPDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.strikeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pLTPDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peOICHGDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peRemarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.gannTableGroupBox = new System.Windows.Forms.GroupBox();
+            this.resultsTableDataGridView = new System.Windows.Forms.DataGridView();
+            this.resultsTableGroupBox = new System.Windows.Forms.GroupBox();
+            this.ceTotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.percentageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peTotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueGannSQRT9DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.boundaryTableDataGridView = new System.Windows.Forms.DataGridView();
+            this.boundaryTableGroupBox = new System.Windows.Forms.GroupBox();
+            this.ceValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.strike1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rankDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.strike2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.signalTableDataGridView = new System.Windows.Forms.DataGridView();
+            this.signalTableGroupBox = new System.Windows.Forms.GroupBox();
+            this.timeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ceRemarkSignalTableDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.changeCEOIDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.changePEOIDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trend1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trend2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trendAverageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.signalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tradeActionsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmpDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.m2mDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.profitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.marketSummaryGroupBox.SuspendLayout();
             this.dayTableGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dayTableDataGridView)).BeginInit();
+            this.strikePriceTableGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.strikePriceTableDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.gannTableGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsTableDataGridView)).BeginInit();
+            this.resultsTableGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.boundaryTableDataGridView)).BeginInit();
+            this.boundaryTableGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.signalTableDataGridView)).BeginInit();
+            this.signalTableGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // marketSummaryGroupBox
@@ -204,7 +254,7 @@
             this.dayTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dayTableGroupBox.Location = new System.Drawing.Point(10, 76);
             this.dayTableGroupBox.Name = "dayTableGroupBox";
-            this.dayTableGroupBox.Size = new System.Drawing.Size(562, 258);
+            this.dayTableGroupBox.Size = new System.Drawing.Size(526, 235);
             this.dayTableGroupBox.TabIndex = 2;
             this.dayTableGroupBox.TabStop = false;
             this.dayTableGroupBox.Text = "Day Table";
@@ -224,29 +274,47 @@
             this.dayTableDataGridView.Location = new System.Drawing.Point(7, 22);
             this.dayTableDataGridView.Name = "dayTableDataGridView";
             this.dayTableDataGridView.ReadOnly = true;
-            this.dayTableDataGridView.Size = new System.Drawing.Size(546, 224);
+            this.dayTableDataGridView.Size = new System.Drawing.Size(509, 205);
             this.dayTableDataGridView.TabIndex = 0;
             // 
-            // PETotal
+            // strikePriceTableGroupBox
             // 
-            this.PETotal.Frozen = true;
-            this.PETotal.HeaderText = "PE Total";
-            this.PETotal.Name = "PETotal";
-            this.PETotal.ReadOnly = true;
+            this.strikePriceTableGroupBox.Controls.Add(this.strikePriceTableDataGridView);
+            this.strikePriceTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.strikePriceTableGroupBox.Location = new System.Drawing.Point(542, 76);
+            this.strikePriceTableGroupBox.Name = "strikePriceTableGroupBox";
+            this.strikePriceTableGroupBox.Size = new System.Drawing.Size(698, 235);
+            this.strikePriceTableGroupBox.TabIndex = 3;
+            this.strikePriceTableGroupBox.TabStop = false;
+            this.strikePriceTableGroupBox.Text = "Strike Price Table";
             // 
-            // Percentage
+            // strikePriceTableDataGridView
             // 
-            this.Percentage.Frozen = true;
-            this.Percentage.HeaderText = "Percentage";
-            this.Percentage.Name = "Percentage";
-            this.Percentage.ReadOnly = true;
+            this.strikePriceTableDataGridView.AllowUserToAddRows = false;
+            this.strikePriceTableDataGridView.AllowUserToDeleteRows = false;
+            this.strikePriceTableDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.strikePriceTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.strikePriceTableDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ceRemarkDataGridViewTextBoxColumn,
+            this.ceOICHGDataGridViewTextBoxColumn,
+            this.cLTPDataGridViewTextBoxColumn,
+            this.strikeDataGridViewTextBoxColumn,
+            this.pLTPDataGridViewTextBoxColumn,
+            this.peOICHGDataGridViewTextBoxColumn,
+            this.peRemarkDataGridViewTextBoxColumn});
+            this.strikePriceTableDataGridView.Location = new System.Drawing.Point(7, 22);
+            this.strikePriceTableDataGridView.Name = "strikePriceTableDataGridView";
+            this.strikePriceTableDataGridView.ReadOnly = true;
+            this.strikePriceTableDataGridView.Size = new System.Drawing.Size(683, 205);
+            this.strikePriceTableDataGridView.TabIndex = 0;
             // 
-            // CETotal
+            // Time
             // 
-            this.CETotal.Frozen = true;
-            this.CETotal.HeaderText = "CE Total";
-            this.CETotal.Name = "CETotal";
-            this.CETotal.ReadOnly = true;
+            this.Time.Frozen = true;
+            this.Time.HeaderText = "Time";
+            this.Time.Name = "Time";
+            this.Time.ReadOnly = true;
+            this.Time.Width = 85;
             // 
             // Price
             // 
@@ -255,23 +323,395 @@
             this.Price.Name = "Price";
             this.Price.ReadOnly = true;
             // 
-            // Time
+            // CETotal
             // 
-            this.Time.Frozen = true;
-            this.Time.HeaderText = "Time";
-            this.Time.Name = "Time";
-            this.Time.ReadOnly = true;
+            this.CETotal.Frozen = true;
+            this.CETotal.HeaderText = "CE Total";
+            this.CETotal.Name = "CETotal";
+            this.CETotal.ReadOnly = true;
+            // 
+            // Percentage
+            // 
+            this.Percentage.Frozen = true;
+            this.Percentage.HeaderText = "Percentage";
+            this.Percentage.Name = "Percentage";
+            this.Percentage.ReadOnly = true;
+            // 
+            // PETotal
+            // 
+            this.PETotal.Frozen = true;
+            this.PETotal.HeaderText = "PE Total";
+            this.PETotal.Name = "PETotal";
+            this.PETotal.ReadOnly = true;
+            // 
+            // ceRemarkDataGridViewTextBoxColumn
+            // 
+            this.ceRemarkDataGridViewTextBoxColumn.Frozen = true;
+            this.ceRemarkDataGridViewTextBoxColumn.HeaderText = "CE Remark";
+            this.ceRemarkDataGridViewTextBoxColumn.Name = "ceRemarkDataGridViewTextBoxColumn";
+            this.ceRemarkDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // ceOICHGDataGridViewTextBoxColumn
+            // 
+            this.ceOICHGDataGridViewTextBoxColumn.Frozen = true;
+            this.ceOICHGDataGridViewTextBoxColumn.HeaderText = "CE OI CHG";
+            this.ceOICHGDataGridViewTextBoxColumn.Name = "ceOICHGDataGridViewTextBoxColumn";
+            this.ceOICHGDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cLTPDataGridViewTextBoxColumn
+            // 
+            this.cLTPDataGridViewTextBoxColumn.Frozen = true;
+            this.cLTPDataGridViewTextBoxColumn.HeaderText = "C LTP";
+            this.cLTPDataGridViewTextBoxColumn.Name = "cLTPDataGridViewTextBoxColumn";
+            this.cLTPDataGridViewTextBoxColumn.ReadOnly = true;
+            this.cLTPDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // strikeDataGridViewTextBoxColumn
+            // 
+            this.strikeDataGridViewTextBoxColumn.Frozen = true;
+            this.strikeDataGridViewTextBoxColumn.HeaderText = "Strike";
+            this.strikeDataGridViewTextBoxColumn.Name = "strikeDataGridViewTextBoxColumn";
+            this.strikeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.strikeDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // pLTPDataGridViewTextBoxColumn
+            // 
+            this.pLTPDataGridViewTextBoxColumn.Frozen = true;
+            this.pLTPDataGridViewTextBoxColumn.HeaderText = "P LTP";
+            this.pLTPDataGridViewTextBoxColumn.Name = "pLTPDataGridViewTextBoxColumn";
+            this.pLTPDataGridViewTextBoxColumn.ReadOnly = true;
+            this.pLTPDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // peOICHGDataGridViewTextBoxColumn
+            // 
+            this.peOICHGDataGridViewTextBoxColumn.Frozen = true;
+            this.peOICHGDataGridViewTextBoxColumn.HeaderText = "PE OI CHG";
+            this.peOICHGDataGridViewTextBoxColumn.Name = "peOICHGDataGridViewTextBoxColumn";
+            this.peOICHGDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // peRemarkDataGridViewTextBoxColumn
+            // 
+            this.peRemarkDataGridViewTextBoxColumn.Frozen = true;
+            this.peRemarkDataGridViewTextBoxColumn.HeaderText = "PE Remark";
+            this.peRemarkDataGridViewTextBoxColumn.Name = "peRemarkDataGridViewTextBoxColumn";
+            this.peRemarkDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nameDataGridViewTextBoxColumn,
+            this.valueGannSQRT9DataGridViewTextBoxColumn});
+            this.dataGridView1.Location = new System.Drawing.Point(7, 22);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(509, 165);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // gannTableGroupBox
+            // 
+            this.gannTableGroupBox.Controls.Add(this.dataGridView1);
+            this.gannTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gannTableGroupBox.Location = new System.Drawing.Point(10, 317);
+            this.gannTableGroupBox.Name = "gannTableGroupBox";
+            this.gannTableGroupBox.Size = new System.Drawing.Size(526, 197);
+            this.gannTableGroupBox.TabIndex = 3;
+            this.gannTableGroupBox.TabStop = false;
+            this.gannTableGroupBox.Text = "Gann Table";
+            // 
+            // resultsTableDataGridView
+            // 
+            this.resultsTableDataGridView.AllowUserToAddRows = false;
+            this.resultsTableDataGridView.AllowUserToDeleteRows = false;
+            this.resultsTableDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.resultsTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.resultsTableDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ceTotalDataGridViewTextBoxColumn,
+            this.percentageDataGridViewTextBoxColumn,
+            this.peTotalDataGridViewTextBoxColumn});
+            this.resultsTableDataGridView.Location = new System.Drawing.Point(6, 22);
+            this.resultsTableDataGridView.Name = "resultsTableDataGridView";
+            this.resultsTableDataGridView.ReadOnly = true;
+            this.resultsTableDataGridView.Size = new System.Drawing.Size(683, 59);
+            this.resultsTableDataGridView.TabIndex = 0;
+            // 
+            // resultsTableGroupBox
+            // 
+            this.resultsTableGroupBox.Controls.Add(this.resultsTableDataGridView);
+            this.resultsTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resultsTableGroupBox.Location = new System.Drawing.Point(542, 317);
+            this.resultsTableGroupBox.Name = "resultsTableGroupBox";
+            this.resultsTableGroupBox.Size = new System.Drawing.Size(698, 89);
+            this.resultsTableGroupBox.TabIndex = 4;
+            this.resultsTableGroupBox.TabStop = false;
+            this.resultsTableGroupBox.Text = "Results Table";
+            // 
+            // ceTotalDataGridViewTextBoxColumn
+            // 
+            this.ceTotalDataGridViewTextBoxColumn.Frozen = true;
+            this.ceTotalDataGridViewTextBoxColumn.HeaderText = "CE Total";
+            this.ceTotalDataGridViewTextBoxColumn.Name = "ceTotalDataGridViewTextBoxColumn";
+            this.ceTotalDataGridViewTextBoxColumn.ReadOnly = true;
+            this.ceTotalDataGridViewTextBoxColumn.Width = 230;
+            // 
+            // percentageDataGridViewTextBoxColumn
+            // 
+            this.percentageDataGridViewTextBoxColumn.Frozen = true;
+            this.percentageDataGridViewTextBoxColumn.HeaderText = "Percentage";
+            this.percentageDataGridViewTextBoxColumn.Name = "percentageDataGridViewTextBoxColumn";
+            this.percentageDataGridViewTextBoxColumn.ReadOnly = true;
+            this.percentageDataGridViewTextBoxColumn.Width = 230;
+            // 
+            // peTotalDataGridViewTextBoxColumn
+            // 
+            this.peTotalDataGridViewTextBoxColumn.Frozen = true;
+            this.peTotalDataGridViewTextBoxColumn.HeaderText = "PE Total";
+            this.peTotalDataGridViewTextBoxColumn.Name = "peTotalDataGridViewTextBoxColumn";
+            this.peTotalDataGridViewTextBoxColumn.ReadOnly = true;
+            this.peTotalDataGridViewTextBoxColumn.Width = 230;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.Frozen = true;
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nameDataGridViewTextBoxColumn.Width = 230;
+            // 
+            // valueGannSQRT9DataGridViewTextBoxColumn
+            // 
+            this.valueGannSQRT9DataGridViewTextBoxColumn.Frozen = true;
+            this.valueGannSQRT9DataGridViewTextBoxColumn.HeaderText = "Value - Gann SQRT of 9";
+            this.valueGannSQRT9DataGridViewTextBoxColumn.Name = "valueGannSQRT9DataGridViewTextBoxColumn";
+            this.valueGannSQRT9DataGridViewTextBoxColumn.ReadOnly = true;
+            this.valueGannSQRT9DataGridViewTextBoxColumn.Width = 230;
+            // 
+            // boundaryTableDataGridView
+            // 
+            this.boundaryTableDataGridView.AllowUserToAddRows = false;
+            this.boundaryTableDataGridView.AllowUserToDeleteRows = false;
+            this.boundaryTableDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.boundaryTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.boundaryTableDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ceValueDataGridViewTextBoxColumn,
+            this.strike1DataGridViewTextBoxColumn,
+            this.rankDataGridViewTextBoxColumn,
+            this.strike2DataGridViewTextBoxColumn,
+            this.peValueDataGridViewTextBoxColumn});
+            this.boundaryTableDataGridView.Location = new System.Drawing.Point(6, 22);
+            this.boundaryTableDataGridView.Name = "boundaryTableDataGridView";
+            this.boundaryTableDataGridView.ReadOnly = true;
+            this.boundaryTableDataGridView.Size = new System.Drawing.Size(683, 70);
+            this.boundaryTableDataGridView.TabIndex = 0;
+            // 
+            // boundaryTableGroupBox
+            // 
+            this.boundaryTableGroupBox.Controls.Add(this.boundaryTableDataGridView);
+            this.boundaryTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.boundaryTableGroupBox.Location = new System.Drawing.Point(542, 412);
+            this.boundaryTableGroupBox.Name = "boundaryTableGroupBox";
+            this.boundaryTableGroupBox.Size = new System.Drawing.Size(698, 102);
+            this.boundaryTableGroupBox.TabIndex = 5;
+            this.boundaryTableGroupBox.TabStop = false;
+            this.boundaryTableGroupBox.Text = "Boundary Table";
+            // 
+            // ceValueDataGridViewTextBoxColumn
+            // 
+            this.ceValueDataGridViewTextBoxColumn.Frozen = true;
+            this.ceValueDataGridViewTextBoxColumn.HeaderText = "CE Value";
+            this.ceValueDataGridViewTextBoxColumn.Name = "ceValueDataGridViewTextBoxColumn";
+            this.ceValueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.ceValueDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // strike1DataGridViewTextBoxColumn
+            // 
+            this.strike1DataGridViewTextBoxColumn.Frozen = true;
+            this.strike1DataGridViewTextBoxColumn.HeaderText = "Strike 1";
+            this.strike1DataGridViewTextBoxColumn.Name = "strike1DataGridViewTextBoxColumn";
+            this.strike1DataGridViewTextBoxColumn.ReadOnly = true;
+            this.strike1DataGridViewTextBoxColumn.Width = 125;
+            // 
+            // rankDataGridViewTextBoxColumn
+            // 
+            this.rankDataGridViewTextBoxColumn.Frozen = true;
+            this.rankDataGridViewTextBoxColumn.HeaderText = "Rank";
+            this.rankDataGridViewTextBoxColumn.Name = "rankDataGridViewTextBoxColumn";
+            this.rankDataGridViewTextBoxColumn.ReadOnly = true;
+            this.rankDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // strike2DataGridViewTextBoxColumn
+            // 
+            this.strike2DataGridViewTextBoxColumn.Frozen = true;
+            this.strike2DataGridViewTextBoxColumn.HeaderText = "Strike 2";
+            this.strike2DataGridViewTextBoxColumn.Name = "strike2DataGridViewTextBoxColumn";
+            this.strike2DataGridViewTextBoxColumn.ReadOnly = true;
+            this.strike2DataGridViewTextBoxColumn.Width = 125;
+            // 
+            // peValueDataGridViewTextBoxColumn
+            // 
+            this.peValueDataGridViewTextBoxColumn.Frozen = true;
+            this.peValueDataGridViewTextBoxColumn.HeaderText = "PE Value";
+            this.peValueDataGridViewTextBoxColumn.Name = "peValueDataGridViewTextBoxColumn";
+            this.peValueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.peValueDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // signalTableDataGridView
+            // 
+            this.signalTableDataGridView.AllowUserToAddRows = false;
+            this.signalTableDataGridView.AllowUserToDeleteRows = false;
+            this.signalTableDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.signalTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.signalTableDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.timeDataGridViewTextBoxColumn,
+            this.ceRemarkSignalTableDataGridViewTextBoxColumn,
+            this.changeCEOIDataGridViewTextBoxColumn,
+            this.changePEOIDataGridViewTextBoxColumn,
+            this.dataGridViewTextBoxColumn1,
+            this.trend1DataGridViewTextBoxColumn,
+            this.trend2DataGridViewTextBoxColumn,
+            this.trendAverageDataGridViewTextBoxColumn,
+            this.signalDataGridViewTextBoxColumn,
+            this.tradeActionsDataGridViewTextBoxColumn,
+            this.cmpDataGridViewTextBoxColumn,
+            this.m2mDataGridViewTextBoxColumn,
+            this.profitDataGridViewTextBoxColumn});
+            this.signalTableDataGridView.Location = new System.Drawing.Point(7, 22);
+            this.signalTableDataGridView.Name = "signalTableDataGridView";
+            this.signalTableDataGridView.ReadOnly = true;
+            this.signalTableDataGridView.Size = new System.Drawing.Size(1214, 135);
+            this.signalTableDataGridView.TabIndex = 0;
+            // 
+            // signalTableGroupBox
+            // 
+            this.signalTableGroupBox.Controls.Add(this.signalTableDataGridView);
+            this.signalTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.signalTableGroupBox.Location = new System.Drawing.Point(10, 520);
+            this.signalTableGroupBox.Name = "signalTableGroupBox";
+            this.signalTableGroupBox.Size = new System.Drawing.Size(1230, 171);
+            this.signalTableGroupBox.TabIndex = 4;
+            this.signalTableGroupBox.TabStop = false;
+            this.signalTableGroupBox.Text = "Signal Table (10000.0 / 11000.0 - 1 mts)";
+            // 
+            // timeDataGridViewTextBoxColumn
+            // 
+            this.timeDataGridViewTextBoxColumn.Frozen = true;
+            this.timeDataGridViewTextBoxColumn.HeaderText = "Time";
+            this.timeDataGridViewTextBoxColumn.Name = "timeDataGridViewTextBoxColumn";
+            this.timeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.timeDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // ceRemarkSignalTableDataGridViewTextBoxColumn
+            // 
+            this.ceRemarkSignalTableDataGridViewTextBoxColumn.Frozen = true;
+            this.ceRemarkSignalTableDataGridViewTextBoxColumn.HeaderText = "CE Remark";
+            this.ceRemarkSignalTableDataGridViewTextBoxColumn.Name = "ceRemarkSignalTableDataGridViewTextBoxColumn";
+            this.ceRemarkSignalTableDataGridViewTextBoxColumn.ReadOnly = true;
+            this.ceRemarkSignalTableDataGridViewTextBoxColumn.Width = 110;
+            // 
+            // changeCEOIDataGridViewTextBoxColumn
+            // 
+            this.changeCEOIDataGridViewTextBoxColumn.Frozen = true;
+            this.changeCEOIDataGridViewTextBoxColumn.HeaderText = "Chng CE OI";
+            this.changeCEOIDataGridViewTextBoxColumn.Name = "changeCEOIDataGridViewTextBoxColumn";
+            this.changeCEOIDataGridViewTextBoxColumn.ReadOnly = true;
+            this.changeCEOIDataGridViewTextBoxColumn.Width = 110;
+            // 
+            // changePEOIDataGridViewTextBoxColumn
+            // 
+            this.changePEOIDataGridViewTextBoxColumn.Frozen = true;
+            this.changePEOIDataGridViewTextBoxColumn.HeaderText = "Chng PE OI";
+            this.changePEOIDataGridViewTextBoxColumn.Name = "changePEOIDataGridViewTextBoxColumn";
+            this.changePEOIDataGridViewTextBoxColumn.ReadOnly = true;
+            this.changePEOIDataGridViewTextBoxColumn.Width = 110;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.Frozen = true;
+            this.dataGridViewTextBoxColumn1.HeaderText = "PE Remark";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 110;
+            // 
+            // trend1DataGridViewTextBoxColumn
+            // 
+            this.trend1DataGridViewTextBoxColumn.Frozen = true;
+            this.trend1DataGridViewTextBoxColumn.HeaderText = "Trend 1";
+            this.trend1DataGridViewTextBoxColumn.Name = "trend1DataGridViewTextBoxColumn";
+            this.trend1DataGridViewTextBoxColumn.ReadOnly = true;
+            this.trend1DataGridViewTextBoxColumn.Width = 80;
+            // 
+            // trend2DataGridViewTextBoxColumn
+            // 
+            this.trend2DataGridViewTextBoxColumn.Frozen = true;
+            this.trend2DataGridViewTextBoxColumn.HeaderText = "Trend 2";
+            this.trend2DataGridViewTextBoxColumn.Name = "trend2DataGridViewTextBoxColumn";
+            this.trend2DataGridViewTextBoxColumn.ReadOnly = true;
+            this.trend2DataGridViewTextBoxColumn.Width = 80;
+            // 
+            // trendAverageDataGridViewTextBoxColumn
+            // 
+            this.trendAverageDataGridViewTextBoxColumn.Frozen = true;
+            this.trendAverageDataGridViewTextBoxColumn.HeaderText = "Trend Avg";
+            this.trendAverageDataGridViewTextBoxColumn.Name = "trendAverageDataGridViewTextBoxColumn";
+            this.trendAverageDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // signalDataGridViewTextBoxColumn
+            // 
+            this.signalDataGridViewTextBoxColumn.Frozen = true;
+            this.signalDataGridViewTextBoxColumn.HeaderText = "Signal";
+            this.signalDataGridViewTextBoxColumn.Name = "signalDataGridViewTextBoxColumn";
+            this.signalDataGridViewTextBoxColumn.ReadOnly = true;
+            this.signalDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // tradeActionsDataGridViewTextBoxColumn
+            // 
+            this.tradeActionsDataGridViewTextBoxColumn.Frozen = true;
+            this.tradeActionsDataGridViewTextBoxColumn.HeaderText = "Trade Actions";
+            this.tradeActionsDataGridViewTextBoxColumn.Name = "tradeActionsDataGridViewTextBoxColumn";
+            this.tradeActionsDataGridViewTextBoxColumn.ReadOnly = true;
+            this.tradeActionsDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // cmpDataGridViewTextBoxColumn
+            // 
+            this.cmpDataGridViewTextBoxColumn.Frozen = true;
+            this.cmpDataGridViewTextBoxColumn.HeaderText = "CMP";
+            this.cmpDataGridViewTextBoxColumn.Name = "cmpDataGridViewTextBoxColumn";
+            this.cmpDataGridViewTextBoxColumn.ReadOnly = true;
+            this.cmpDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // m2mDataGridViewTextBoxColumn
+            // 
+            this.m2mDataGridViewTextBoxColumn.Frozen = true;
+            this.m2mDataGridViewTextBoxColumn.HeaderText = "M2M";
+            this.m2mDataGridViewTextBoxColumn.Name = "m2mDataGridViewTextBoxColumn";
+            this.m2mDataGridViewTextBoxColumn.ReadOnly = true;
+            this.m2mDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // profitDataGridViewTextBoxColumn
+            // 
+            this.profitDataGridViewTextBoxColumn.Frozen = true;
+            this.profitDataGridViewTextBoxColumn.HeaderText = "Profit";
+            this.profitDataGridViewTextBoxColumn.Name = "profitDataGridViewTextBoxColumn";
+            this.profitDataGridViewTextBoxColumn.ReadOnly = true;
+            this.profitDataGridViewTextBoxColumn.Width = 75;
             // 
             // MarketTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1244, 523);
+            this.ClientSize = new System.Drawing.Size(1244, 692);
+            this.Controls.Add(this.signalTableGroupBox);
+            this.Controls.Add(this.boundaryTableGroupBox);
+            this.Controls.Add(this.resultsTableGroupBox);
+            this.Controls.Add(this.gannTableGroupBox);
+            this.Controls.Add(this.strikePriceTableGroupBox);
             this.Controls.Add(this.dayTableGroupBox);
             this.Controls.Add(this.refreshMarketButton);
             this.Controls.Add(this.marketSummaryGroupBox);
-            this.MaximizeBox = false;
             this.Name = "MarketTracker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NSE Day Market Tracker";
@@ -281,6 +721,16 @@
             this.marketSummaryGroupBox.PerformLayout();
             this.dayTableGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dayTableDataGridView)).EndInit();
+            this.strikePriceTableGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.strikePriceTableDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.gannTableGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.resultsTableDataGridView)).EndInit();
+            this.resultsTableGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.boundaryTableDataGridView)).EndInit();
+            this.boundaryTableGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.signalTableDataGridView)).EndInit();
+            this.signalTableGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -302,10 +752,50 @@
         private System.Windows.Forms.Button refreshMarketButton;
         private System.Windows.Forms.GroupBox dayTableGroupBox;
         private System.Windows.Forms.DataGridView dayTableDataGridView;
+        private System.Windows.Forms.GroupBox strikePriceTableGroupBox;
+        private System.Windows.Forms.DataGridView strikePriceTableDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn CETotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn Percentage;
         private System.Windows.Forms.DataGridViewTextBoxColumn PETotal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ceRemarkDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ceOICHGDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cLTPDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn strikeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pLTPDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peOICHGDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peRemarkDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.GroupBox gannTableGroupBox;
+        private System.Windows.Forms.DataGridView resultsTableDataGridView;
+        private System.Windows.Forms.GroupBox resultsTableGroupBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ceTotalDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn percentageDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peTotalDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn valueGannSQRT9DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridView boundaryTableDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ceValueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn strike1DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rankDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn strike2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn peValueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.GroupBox boundaryTableGroupBox;
+        private System.Windows.Forms.DataGridView signalTableDataGridView;
+        private System.Windows.Forms.GroupBox signalTableGroupBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn timeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ceRemarkSignalTableDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn changeCEOIDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn changePEOIDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trend1DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trend2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trendAverageDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn signalDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tradeActionsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cmpDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn m2mDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn profitDataGridViewTextBoxColumn;
     }
 }
