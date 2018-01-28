@@ -43,13 +43,13 @@
             this.refreshMarketButton = new System.Windows.Forms.Button();
             this.dayTableGroupBox = new System.Windows.Forms.GroupBox();
             this.dayTableDataGridView = new System.Windows.Forms.DataGridView();
-            this.strikePriceTableGroupBox = new System.Windows.Forms.GroupBox();
-            this.strikePriceTableDataGridView = new System.Windows.Forms.DataGridView();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CETotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Percentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PETotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.strikePriceTableGroupBox = new System.Windows.Forms.GroupBox();
+            this.strikePriceTableDataGridView = new System.Windows.Forms.DataGridView();
             this.ceRemarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ceOICHGDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cLTPDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,23 +58,22 @@
             this.peOICHGDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peRemarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueGannSQRT9DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gannTableGroupBox = new System.Windows.Forms.GroupBox();
             this.resultsTableDataGridView = new System.Windows.Forms.DataGridView();
-            this.resultsTableGroupBox = new System.Windows.Forms.GroupBox();
             this.ceTotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.percentageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peTotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueGannSQRT9DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.resultsTableGroupBox = new System.Windows.Forms.GroupBox();
             this.boundaryTableDataGridView = new System.Windows.Forms.DataGridView();
-            this.boundaryTableGroupBox = new System.Windows.Forms.GroupBox();
             this.ceValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.strike1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rankDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.strike2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.peValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.boundaryTableGroupBox = new System.Windows.Forms.GroupBox();
             this.signalTableDataGridView = new System.Windows.Forms.DataGridView();
-            this.signalTableGroupBox = new System.Windows.Forms.GroupBox();
             this.timeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ceRemarkSignalTableDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.changeCEOIDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,6 +87,7 @@
             this.cmpDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m2mDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.profitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.signalTableGroupBox = new System.Windows.Forms.GroupBox();
             this.marketSummaryGroupBox.SuspendLayout();
             this.dayTableGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dayTableDataGridView)).BeginInit();
@@ -128,7 +128,7 @@
             // weekLabel
             // 
             this.weekLabel.AutoSize = true;
-            this.weekLabel.Location = new System.Drawing.Point(829, 25);
+            this.weekLabel.Location = new System.Drawing.Point(890, 25);
             this.weekLabel.Name = "weekLabel";
             this.weekLabel.Size = new System.Drawing.Size(64, 17);
             this.weekLabel.TabIndex = 1;
@@ -247,6 +247,7 @@
             this.refreshMarketButton.TabIndex = 1;
             this.refreshMarketButton.Text = "Refresh Data";
             this.refreshMarketButton.UseVisualStyleBackColor = false;
+            this.refreshMarketButton.Click += new System.EventHandler(this.RefreshMarketButton_Click);
             // 
             // dayTableGroupBox
             // 
@@ -276,37 +277,6 @@
             this.dayTableDataGridView.ReadOnly = true;
             this.dayTableDataGridView.Size = new System.Drawing.Size(509, 205);
             this.dayTableDataGridView.TabIndex = 0;
-            // 
-            // strikePriceTableGroupBox
-            // 
-            this.strikePriceTableGroupBox.Controls.Add(this.strikePriceTableDataGridView);
-            this.strikePriceTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.strikePriceTableGroupBox.Location = new System.Drawing.Point(542, 76);
-            this.strikePriceTableGroupBox.Name = "strikePriceTableGroupBox";
-            this.strikePriceTableGroupBox.Size = new System.Drawing.Size(698, 235);
-            this.strikePriceTableGroupBox.TabIndex = 3;
-            this.strikePriceTableGroupBox.TabStop = false;
-            this.strikePriceTableGroupBox.Text = "Strike Price Table";
-            // 
-            // strikePriceTableDataGridView
-            // 
-            this.strikePriceTableDataGridView.AllowUserToAddRows = false;
-            this.strikePriceTableDataGridView.AllowUserToDeleteRows = false;
-            this.strikePriceTableDataGridView.BackgroundColor = System.Drawing.Color.White;
-            this.strikePriceTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.strikePriceTableDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ceRemarkDataGridViewTextBoxColumn,
-            this.ceOICHGDataGridViewTextBoxColumn,
-            this.cLTPDataGridViewTextBoxColumn,
-            this.strikeDataGridViewTextBoxColumn,
-            this.pLTPDataGridViewTextBoxColumn,
-            this.peOICHGDataGridViewTextBoxColumn,
-            this.peRemarkDataGridViewTextBoxColumn});
-            this.strikePriceTableDataGridView.Location = new System.Drawing.Point(7, 22);
-            this.strikePriceTableDataGridView.Name = "strikePriceTableDataGridView";
-            this.strikePriceTableDataGridView.ReadOnly = true;
-            this.strikePriceTableDataGridView.Size = new System.Drawing.Size(683, 205);
-            this.strikePriceTableDataGridView.TabIndex = 0;
             // 
             // Time
             // 
@@ -343,6 +313,37 @@
             this.PETotal.HeaderText = "PE Total";
             this.PETotal.Name = "PETotal";
             this.PETotal.ReadOnly = true;
+            // 
+            // strikePriceTableGroupBox
+            // 
+            this.strikePriceTableGroupBox.Controls.Add(this.strikePriceTableDataGridView);
+            this.strikePriceTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.strikePriceTableGroupBox.Location = new System.Drawing.Point(542, 76);
+            this.strikePriceTableGroupBox.Name = "strikePriceTableGroupBox";
+            this.strikePriceTableGroupBox.Size = new System.Drawing.Size(698, 235);
+            this.strikePriceTableGroupBox.TabIndex = 3;
+            this.strikePriceTableGroupBox.TabStop = false;
+            this.strikePriceTableGroupBox.Text = "Strike Price Table";
+            // 
+            // strikePriceTableDataGridView
+            // 
+            this.strikePriceTableDataGridView.AllowUserToAddRows = false;
+            this.strikePriceTableDataGridView.AllowUserToDeleteRows = false;
+            this.strikePriceTableDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.strikePriceTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.strikePriceTableDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ceRemarkDataGridViewTextBoxColumn,
+            this.ceOICHGDataGridViewTextBoxColumn,
+            this.cLTPDataGridViewTextBoxColumn,
+            this.strikeDataGridViewTextBoxColumn,
+            this.pLTPDataGridViewTextBoxColumn,
+            this.peOICHGDataGridViewTextBoxColumn,
+            this.peRemarkDataGridViewTextBoxColumn});
+            this.strikePriceTableDataGridView.Location = new System.Drawing.Point(7, 22);
+            this.strikePriceTableDataGridView.Name = "strikePriceTableDataGridView";
+            this.strikePriceTableDataGridView.ReadOnly = true;
+            this.strikePriceTableDataGridView.Size = new System.Drawing.Size(683, 205);
+            this.strikePriceTableDataGridView.TabIndex = 0;
             // 
             // ceRemarkDataGridViewTextBoxColumn
             // 
@@ -411,6 +412,22 @@
             this.dataGridView1.Size = new System.Drawing.Size(509, 165);
             this.dataGridView1.TabIndex = 0;
             // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.Frozen = true;
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nameDataGridViewTextBoxColumn.Width = 230;
+            // 
+            // valueGannSQRT9DataGridViewTextBoxColumn
+            // 
+            this.valueGannSQRT9DataGridViewTextBoxColumn.Frozen = true;
+            this.valueGannSQRT9DataGridViewTextBoxColumn.HeaderText = "Value - Gann SQRT of 9";
+            this.valueGannSQRT9DataGridViewTextBoxColumn.Name = "valueGannSQRT9DataGridViewTextBoxColumn";
+            this.valueGannSQRT9DataGridViewTextBoxColumn.ReadOnly = true;
+            this.valueGannSQRT9DataGridViewTextBoxColumn.Width = 230;
+            // 
             // gannTableGroupBox
             // 
             this.gannTableGroupBox.Controls.Add(this.dataGridView1);
@@ -438,17 +455,6 @@
             this.resultsTableDataGridView.Size = new System.Drawing.Size(683, 59);
             this.resultsTableDataGridView.TabIndex = 0;
             // 
-            // resultsTableGroupBox
-            // 
-            this.resultsTableGroupBox.Controls.Add(this.resultsTableDataGridView);
-            this.resultsTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultsTableGroupBox.Location = new System.Drawing.Point(542, 317);
-            this.resultsTableGroupBox.Name = "resultsTableGroupBox";
-            this.resultsTableGroupBox.Size = new System.Drawing.Size(698, 89);
-            this.resultsTableGroupBox.TabIndex = 4;
-            this.resultsTableGroupBox.TabStop = false;
-            this.resultsTableGroupBox.Text = "Results Table";
-            // 
             // ceTotalDataGridViewTextBoxColumn
             // 
             this.ceTotalDataGridViewTextBoxColumn.Frozen = true;
@@ -473,21 +479,16 @@
             this.peTotalDataGridViewTextBoxColumn.ReadOnly = true;
             this.peTotalDataGridViewTextBoxColumn.Width = 230;
             // 
-            // nameDataGridViewTextBoxColumn
+            // resultsTableGroupBox
             // 
-            this.nameDataGridViewTextBoxColumn.Frozen = true;
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nameDataGridViewTextBoxColumn.Width = 230;
-            // 
-            // valueGannSQRT9DataGridViewTextBoxColumn
-            // 
-            this.valueGannSQRT9DataGridViewTextBoxColumn.Frozen = true;
-            this.valueGannSQRT9DataGridViewTextBoxColumn.HeaderText = "Value - Gann SQRT of 9";
-            this.valueGannSQRT9DataGridViewTextBoxColumn.Name = "valueGannSQRT9DataGridViewTextBoxColumn";
-            this.valueGannSQRT9DataGridViewTextBoxColumn.ReadOnly = true;
-            this.valueGannSQRT9DataGridViewTextBoxColumn.Width = 230;
+            this.resultsTableGroupBox.Controls.Add(this.resultsTableDataGridView);
+            this.resultsTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resultsTableGroupBox.Location = new System.Drawing.Point(542, 317);
+            this.resultsTableGroupBox.Name = "resultsTableGroupBox";
+            this.resultsTableGroupBox.Size = new System.Drawing.Size(698, 89);
+            this.resultsTableGroupBox.TabIndex = 4;
+            this.resultsTableGroupBox.TabStop = false;
+            this.resultsTableGroupBox.Text = "Results Table";
             // 
             // boundaryTableDataGridView
             // 
@@ -506,17 +507,6 @@
             this.boundaryTableDataGridView.ReadOnly = true;
             this.boundaryTableDataGridView.Size = new System.Drawing.Size(683, 70);
             this.boundaryTableDataGridView.TabIndex = 0;
-            // 
-            // boundaryTableGroupBox
-            // 
-            this.boundaryTableGroupBox.Controls.Add(this.boundaryTableDataGridView);
-            this.boundaryTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.boundaryTableGroupBox.Location = new System.Drawing.Point(542, 412);
-            this.boundaryTableGroupBox.Name = "boundaryTableGroupBox";
-            this.boundaryTableGroupBox.Size = new System.Drawing.Size(698, 102);
-            this.boundaryTableGroupBox.TabIndex = 5;
-            this.boundaryTableGroupBox.TabStop = false;
-            this.boundaryTableGroupBox.Text = "Boundary Table";
             // 
             // ceValueDataGridViewTextBoxColumn
             // 
@@ -558,6 +548,17 @@
             this.peValueDataGridViewTextBoxColumn.ReadOnly = true;
             this.peValueDataGridViewTextBoxColumn.Width = 125;
             // 
+            // boundaryTableGroupBox
+            // 
+            this.boundaryTableGroupBox.Controls.Add(this.boundaryTableDataGridView);
+            this.boundaryTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.boundaryTableGroupBox.Location = new System.Drawing.Point(542, 412);
+            this.boundaryTableGroupBox.Name = "boundaryTableGroupBox";
+            this.boundaryTableGroupBox.Size = new System.Drawing.Size(698, 102);
+            this.boundaryTableGroupBox.TabIndex = 5;
+            this.boundaryTableGroupBox.TabStop = false;
+            this.boundaryTableGroupBox.Text = "Boundary Table";
+            // 
             // signalTableDataGridView
             // 
             this.signalTableDataGridView.AllowUserToAddRows = false;
@@ -583,17 +584,6 @@
             this.signalTableDataGridView.ReadOnly = true;
             this.signalTableDataGridView.Size = new System.Drawing.Size(1214, 135);
             this.signalTableDataGridView.TabIndex = 0;
-            // 
-            // signalTableGroupBox
-            // 
-            this.signalTableGroupBox.Controls.Add(this.signalTableDataGridView);
-            this.signalTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.signalTableGroupBox.Location = new System.Drawing.Point(10, 520);
-            this.signalTableGroupBox.Name = "signalTableGroupBox";
-            this.signalTableGroupBox.Size = new System.Drawing.Size(1230, 171);
-            this.signalTableGroupBox.TabIndex = 4;
-            this.signalTableGroupBox.TabStop = false;
-            this.signalTableGroupBox.Text = "Signal Table (10000.0 / 11000.0 - 1 mts)";
             // 
             // timeDataGridViewTextBoxColumn
             // 
@@ -697,6 +687,17 @@
             this.profitDataGridViewTextBoxColumn.Name = "profitDataGridViewTextBoxColumn";
             this.profitDataGridViewTextBoxColumn.ReadOnly = true;
             this.profitDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // signalTableGroupBox
+            // 
+            this.signalTableGroupBox.Controls.Add(this.signalTableDataGridView);
+            this.signalTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.signalTableGroupBox.Location = new System.Drawing.Point(10, 520);
+            this.signalTableGroupBox.Name = "signalTableGroupBox";
+            this.signalTableGroupBox.Size = new System.Drawing.Size(1230, 171);
+            this.signalTableGroupBox.TabIndex = 4;
+            this.signalTableGroupBox.TabStop = false;
+            this.signalTableGroupBox.Text = "Signal Table (10000.0 / 11000.0 - 1 mts)";
             // 
             // MarketTracker
             // 
