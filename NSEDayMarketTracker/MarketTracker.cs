@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using System.Xml;
 using Newtonsoft.Json.Linq;
 
 namespace NSEDayMarketTracker
@@ -12,7 +14,8 @@ namespace NSEDayMarketTracker
     /// </summary>
     public partial class MarketTracker : Form
     {
-        const string equitiesStockWatchURL = "http://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
+        const string equitiesStockWatchURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
+        const string navigationMenuURL = "https://www.nseindia.com/common/xml/navigation.xml";
 
         /// <summary>
         /// The constructor.
@@ -33,6 +36,7 @@ namespace NSEDayMarketTracker
             JObject niftyEquitiesStockWatchDataJObject = DownloadEquitiesStockWatchData();
             SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
             SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
+            string liveMarketURL = GetLiveMarketURL();
         }
 
         /// <summary>
@@ -110,6 +114,41 @@ namespace NSEDayMarketTracker
             JObject niftyEquitiesStockWatchDataJObject = DownloadEquitiesStockWatchData();
             SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
             SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
+        }
+
+        /// <summary>
+        /// Downloads the navigation XML file and returns the live market URL.
+        /// </summary>
+        /// <returns>The live market URL</returns>
+        private string GetLiveMarketURL()
+        {
+            string navigationXML = string.Empty;
+            string liveMarketURL = string.Empty;
+
+            using(var webClient = new WebClient())
+            {
+                // Set headers to download the data
+                webClient.Headers.Add("Accept: text/html, application/xhtml+xml, */*");
+                webClient.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
+
+                // Download the data
+                navigationXML = webClient.DownloadString(navigationMenuURL);
+                XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
+                {
+                    IgnoreWhitespace = true
+                };
+                using(XmlReader xmlReader = XmlReader.Create(new StringReader(navigationXML), xmlReaderSettings))
+                {
+                    xmlReader.MoveToContent();
+                    xmlReader.ReadToDescendant("item");
+                    xmlReader.ReadToNextSibling("item");
+                    xmlReader.ReadToDescendant("submenu");
+                    xmlReader.ReadToNextSibling("submenu");
+                    xmlReader.ReadToDescendant("submenuitem");
+                    liveMarketURL = xmlReader.GetAttribute("link");
+                    return liveMarketURL;
+                }
+            }
         }
     }
 }
