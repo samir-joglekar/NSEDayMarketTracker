@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using System.Xml;
+using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 
 namespace NSEDayMarketTracker
@@ -16,6 +17,7 @@ namespace NSEDayMarketTracker
     {
         const string equitiesStockWatchURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
         const string navigationMenuURL = "https://www.nseindia.com/common/xml/navigation.xml";
+        const string nseIndiaWebsiteURL = "https://www.nseindia.com";
 
         /// <summary>
         /// The constructor.
@@ -34,9 +36,10 @@ namespace NSEDayMarketTracker
         {
             marketSelectComboBox.SelectedIndex = 0;
             JObject niftyEquitiesStockWatchDataJObject = DownloadEquitiesStockWatchData();
-            SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
+            int openMarketBaseNumber = SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
             SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
             string liveMarketURL = GetLiveMarketURL();
+            DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
         }
 
         /// <summary>
@@ -66,8 +69,9 @@ namespace NSEDayMarketTracker
         /// Sets market open and close values.
         /// </summary>
         /// <param name="niftyEquitiesStockWatchJObject">The JObject to read from.</param>
-        private void SetMarketOpenCloseValues(JObject niftyEquitiesStockWatchJObject)
+        private int SetMarketOpenCloseValues(JObject niftyEquitiesStockWatchJObject)
         {
+            int openMarketBaseNumber = 0;
             openValueLabel.Text = niftyEquitiesStockWatchJObject["latestData"][0]["open"].ToString();
             currentValueLabel.Text = niftyEquitiesStockWatchJObject["latestData"][0]["ltp"].ToString();
 
@@ -88,6 +92,16 @@ namespace NSEDayMarketTracker
                 currentValueLabel.BackColor = Color.Red;
                 currentValuePercentageLabel.BackColor = Color.Red;
             }
+
+            // Calculate the base open market value
+            string precedingNumber = openValueLabel.Text.Split('.')[0];
+            precedingNumber = precedingNumber.Replace(",", "");
+
+            if (precedingNumber.Length == 5)
+            {
+                openMarketBaseNumber = Int32.Parse(precedingNumber) - (Int32.Parse(precedingNumber) % 100);
+            }
+            return openMarketBaseNumber;
         }
 
         /// <summary>
@@ -146,9 +160,28 @@ namespace NSEDayMarketTracker
                     xmlReader.ReadToNextSibling("submenu");
                     xmlReader.ReadToDescendant("submenuitem");
                     liveMarketURL = xmlReader.GetAttribute("link");
-                    return liveMarketURL;
+                    return nseIndiaWebsiteURL + liveMarketURL;
                 }
             }
+        }
+
+        /// <summary>
+        /// Grabs the required trs from the market table after calculating the range from the base number.
+        /// </summary>
+        /// <param name="marketURL">The market URL</param>
+        /// <param name="openMarketBaseNumber">The open market base number</param>
+        private void DownloadNIFTYMarketData(string marketURL, int openMarketBaseNumber)
+        {
+            // Define the range
+            decimal baseNumber = Math.Round(Convert.ToDecimal(openMarketBaseNumber), 2);
+            decimal baseNumberPlus50 = baseNumber + 50;
+            decimal baseNumberPlus100 = baseNumber + 100;
+            decimal baseNumberMinus50 = baseNumber - 50;
+            decimal baseNumberMinus100 = baseNumber - 100;
+
+            var htmlWeb = new HtmlWeb();
+            HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.Load(marketURL);
+            HtmlNode table = htmlDocument.DocumentNode.SelectSingleNode("//table[@id=\"octable\"]");
         }
     }
 }
