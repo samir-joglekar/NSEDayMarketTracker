@@ -39,7 +39,7 @@ namespace NSEDayMarketTracker
             int openMarketBaseNumber = SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
             SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
             string liveMarketURL = GetLiveMarketURL();
-            DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
+            HtmlNodeCollection workSetRows = DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
         }
 
         /// <summary>
@@ -69,6 +69,7 @@ namespace NSEDayMarketTracker
         /// Sets market open and close values.
         /// </summary>
         /// <param name="niftyEquitiesStockWatchJObject">The JObject to read from.</param>
+        /// <returns>The open market base number.</returns>
         private int SetMarketOpenCloseValues(JObject niftyEquitiesStockWatchJObject)
         {
             int openMarketBaseNumber = 0;
@@ -97,7 +98,7 @@ namespace NSEDayMarketTracker
             string precedingNumber = openValueLabel.Text.Split('.')[0];
             precedingNumber = precedingNumber.Replace(",", "");
 
-            if (precedingNumber.Length == 5)
+            if(precedingNumber.Length == 5)
             {
                 openMarketBaseNumber = Int32.Parse(precedingNumber) - (Int32.Parse(precedingNumber) % 100);
             }
@@ -170,7 +171,8 @@ namespace NSEDayMarketTracker
         /// </summary>
         /// <param name="marketURL">The market URL</param>
         /// <param name="openMarketBaseNumber">The open market base number</param>
-        private void DownloadNIFTYMarketData(string marketURL, int openMarketBaseNumber)
+        /// <returns>HtmlNodeCollection</returns>
+        private HtmlNodeCollection DownloadNIFTYMarketData(string marketURL, int openMarketBaseNumber)
         {
             // Define the range
             decimal baseNumber = Math.Round(Convert.ToDecimal(openMarketBaseNumber), 2);
@@ -179,9 +181,26 @@ namespace NSEDayMarketTracker
             decimal baseNumberMinus50 = baseNumber - 50;
             decimal baseNumberMinus100 = baseNumber - 100;
 
+            // Grab all rows
             var htmlWeb = new HtmlWeb();
             HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.Load(marketURL);
-            HtmlNode table = htmlDocument.DocumentNode.SelectSingleNode("//table[@id=\"octable\"]");
+            HtmlNodeCollection tableRows = htmlDocument.DocumentNode.SelectNodes("//table[@id=\"octable\"]//tr");
+            tableRows.RemoveAt(tableRows.Count - 1);
+            tableRows.RemoveAt(0);
+            tableRows.RemoveAt(0);
+
+            // Get only those rows which contain values for the defined tange
+            HtmlNodeCollection workSetRows = new HtmlNodeCollection(null);
+            foreach (var currentTableRow in tableRows)
+            {
+                if(currentTableRow.InnerHtml.Contains(baseNumber.ToString()) || currentTableRow.InnerHtml.Contains(baseNumberPlus50.ToString())
+                    || currentTableRow.InnerHtml.Contains(baseNumberPlus100.ToString()) || currentTableRow.InnerHtml.Contains(baseNumberMinus50.ToString())
+                    || currentTableRow.InnerHtml.Contains(baseNumberMinus100.ToString()))
+                {
+                    workSetRows.Add(currentTableRow);
+                }
+            }
+            return workSetRows;
         }
     }
 }
