@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -15,9 +16,9 @@ namespace NSEDayMarketTracker
     /// </summary>
     public partial class MarketTracker : Form
     {
-        const string equitiesStockWatchURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
-        const string navigationMenuURL = "https://www.nseindia.com/common/xml/navigation.xml";
-        const string nseIndiaWebsiteURL = "https://www.nseindia.com";
+        const string EquitiesStockWatchURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
+        const string NavigationMenuURL = "https://www.nseindia.com/common/xml/navigation.xml";
+        const string NSEIndiaWebsiteURL = "https://www.nseindia.com";
 
         /// <summary>
         /// The constructor.
@@ -40,6 +41,9 @@ namespace NSEDayMarketTracker
             SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
             string liveMarketURL = GetLiveMarketURL();
             HtmlNodeCollection workSetRows = DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
+            RenderStrikePriceDayTable(workSetRows);
+            //string[] ara = new string[7] { "Hello", "Hello", "Hello", "Hello", "Hello", "Hello", "Hello"};
+            //strikePriceTableDataGridView.Rows.Add(ara);
         }
 
         /// <summary>
@@ -57,7 +61,7 @@ namespace NSEDayMarketTracker
                 webClient.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
 
                 // Download the data
-                niftyStockWatchJSONString = webClient.DownloadString(equitiesStockWatchURL);
+                niftyStockWatchJSONString = webClient.DownloadString(EquitiesStockWatchURL);
 
                 // Serialise it into a JObject
                 JObject jObject = JObject.Parse(niftyStockWatchJSONString);
@@ -147,7 +151,7 @@ namespace NSEDayMarketTracker
                 webClient.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
 
                 // Download the data
-                navigationXML = webClient.DownloadString(navigationMenuURL);
+                navigationXML = webClient.DownloadString(NavigationMenuURL);
                 XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
                 {
                     IgnoreWhitespace = true
@@ -161,7 +165,7 @@ namespace NSEDayMarketTracker
                     xmlReader.ReadToNextSibling("submenu");
                     xmlReader.ReadToDescendant("submenuitem");
                     liveMarketURL = xmlReader.GetAttribute("link");
-                    return nseIndiaWebsiteURL + liveMarketURL;
+                    return NSEIndiaWebsiteURL + liveMarketURL;
                 }
             }
         }
@@ -178,6 +182,8 @@ namespace NSEDayMarketTracker
             decimal baseNumber = Math.Round(Convert.ToDecimal(openMarketBaseNumber), 2);
             decimal baseNumberPlus50 = baseNumber + 50;
             decimal baseNumberPlus100 = baseNumber + 100;
+            decimal baseNumberPlus150 = baseNumber + 150;
+            decimal baseNumberPlus200 = baseNumber + 200;
             decimal baseNumberMinus50 = baseNumber - 50;
             decimal baseNumberMinus100 = baseNumber - 100;
 
@@ -195,12 +201,63 @@ namespace NSEDayMarketTracker
             {
                 if(currentTableRow.InnerHtml.Contains(baseNumber.ToString()) || currentTableRow.InnerHtml.Contains(baseNumberPlus50.ToString())
                     || currentTableRow.InnerHtml.Contains(baseNumberPlus100.ToString()) || currentTableRow.InnerHtml.Contains(baseNumberMinus50.ToString())
-                    || currentTableRow.InnerHtml.Contains(baseNumberMinus100.ToString()))
+                    || currentTableRow.InnerHtml.Contains(baseNumberMinus100.ToString()) || currentTableRow.InnerHtml.Contains(baseNumberPlus150.ToString())
+                    || currentTableRow.InnerHtml.Contains(baseNumberPlus200.ToString()))
                 {
                     workSetRows.Add(currentTableRow);
                 }
             }
             return workSetRows;
+        }
+
+        /// <summary>
+        /// Renders data into the Strike Price Day Table.
+        /// </summary>
+        /// <param name="workSetRows">A collection of HTML nodes</param>
+        private void RenderStrikePriceDayTable(HtmlNodeCollection workSetRows)
+        {
+            List<List<string>> strikePriceDayTableValues = new List<List<string>>();
+
+            // Fetch the list of tds in the row
+            foreach(HtmlNode currentWorkSetRow in workSetRows)
+            {
+                List<string> strikePriceDayTableRowValues = new List<string>();
+                foreach(HtmlNode currentNodeInWorkSetRow in currentWorkSetRow.ChildNodes)
+                {
+                    if(currentNodeInWorkSetRow.Name == "td" && currentNodeInWorkSetRow.InnerText != "")
+                    {
+                        strikePriceDayTableRowValues.Add(currentNodeInWorkSetRow.InnerText.Trim());
+                    }
+                }
+                strikePriceDayTableValues.Add(strikePriceDayTableRowValues);
+            }
+
+            // Remove unwanted data
+            foreach(List<string> currentValuesSet in strikePriceDayTableValues)
+            {
+                currentValuesSet.RemoveAt(0);
+                currentValuesSet.RemoveAt(1);
+                currentValuesSet.RemoveAt(1);
+                currentValuesSet.RemoveAt(2);
+                currentValuesSet.RemoveAt(2);
+                currentValuesSet.RemoveAt(2);
+                currentValuesSet.RemoveAt(2);
+                currentValuesSet.RemoveAt(2);
+                currentValuesSet.RemoveAt(3);
+                currentValuesSet.RemoveAt(4);
+                currentValuesSet.RemoveAt(4);
+                currentValuesSet.RemoveAt(4);
+                currentValuesSet.RemoveAt(4);
+                currentValuesSet.RemoveAt(4);
+                currentValuesSet.RemoveAt(4);
+                currentValuesSet.RemoveAt(5);
+                currentValuesSet.Insert(0, "Dummy");
+                currentValuesSet.Add("Dummy");
+
+                // And render
+                strikePriceTableDataGridView.Rows.Add(currentValuesSet[0], currentValuesSet[1], currentValuesSet[2], currentValuesSet[3], currentValuesSet[4],
+                    currentValuesSet[5], currentValuesSet[6]);
+            }
         }
     }
 }
