@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.marketSummaryGroupBox = new System.Windows.Forms.GroupBox();
             this.weekLabel = new System.Windows.Forms.Label();
             this.dateLabel = new System.Windows.Forms.Label();
@@ -43,6 +44,11 @@
             this.refreshMarketButton = new System.Windows.Forms.Button();
             this.dayTableGroupBox = new System.Windows.Forms.GroupBox();
             this.dayTableDataGridView = new System.Windows.Forms.DataGridView();
+            this.dayTableTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dayTablePriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dayTableCETotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dayTablePercentageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dayTablePETotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.strikePriceTableGroupBox = new System.Windows.Forms.GroupBox();
             this.strikePriceTableDataGridView = new System.Windows.Forms.DataGridView();
             this.ceRemarkDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,12 +75,6 @@
             this.peValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.boundaryTableGroupBox = new System.Windows.Forms.GroupBox();
             this.signalTableDataGridView = new System.Windows.Forms.DataGridView();
-            this.signalTableGroupBox = new System.Windows.Forms.GroupBox();
-            this.dayTableTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dayTablePriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dayTableCETotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dayTablePercentageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dayTablePETotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ceRemarkSignalTableDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.changeCEOIDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,6 +88,8 @@
             this.cmpDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m2mDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.profitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.signalTableGroupBox = new System.Windows.Forms.GroupBox();
+            this.refreshTimer = new System.Windows.Forms.Timer(this.components);
             this.marketSummaryGroupBox.SuspendLayout();
             this.dayTableGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dayTableDataGridView)).BeginInit();
@@ -277,6 +279,42 @@
             this.dayTableDataGridView.ReadOnly = true;
             this.dayTableDataGridView.Size = new System.Drawing.Size(509, 205);
             this.dayTableDataGridView.TabIndex = 0;
+            // 
+            // dayTableTimeDataGridViewTextBoxColumn
+            // 
+            this.dayTableTimeDataGridViewTextBoxColumn.Frozen = true;
+            this.dayTableTimeDataGridViewTextBoxColumn.HeaderText = "Time";
+            this.dayTableTimeDataGridViewTextBoxColumn.Name = "dayTableTimeDataGridViewTextBoxColumn";
+            this.dayTableTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dayTableTimeDataGridViewTextBoxColumn.Width = 85;
+            // 
+            // dayTablePriceDataGridViewTextBoxColumn
+            // 
+            this.dayTablePriceDataGridViewTextBoxColumn.Frozen = true;
+            this.dayTablePriceDataGridViewTextBoxColumn.HeaderText = "Price";
+            this.dayTablePriceDataGridViewTextBoxColumn.Name = "dayTablePriceDataGridViewTextBoxColumn";
+            this.dayTablePriceDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dayTableCETotalDataGridViewTextBoxColumn
+            // 
+            this.dayTableCETotalDataGridViewTextBoxColumn.Frozen = true;
+            this.dayTableCETotalDataGridViewTextBoxColumn.HeaderText = "CE Total";
+            this.dayTableCETotalDataGridViewTextBoxColumn.Name = "dayTableCETotalDataGridViewTextBoxColumn";
+            this.dayTableCETotalDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dayTablePercentageDataGridViewTextBoxColumn
+            // 
+            this.dayTablePercentageDataGridViewTextBoxColumn.Frozen = true;
+            this.dayTablePercentageDataGridViewTextBoxColumn.HeaderText = "Percentage";
+            this.dayTablePercentageDataGridViewTextBoxColumn.Name = "dayTablePercentageDataGridViewTextBoxColumn";
+            this.dayTablePercentageDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dayTablePETotalDataGridViewTextBoxColumn
+            // 
+            this.dayTablePETotalDataGridViewTextBoxColumn.Frozen = true;
+            this.dayTablePETotalDataGridViewTextBoxColumn.HeaderText = "PE Total";
+            this.dayTablePETotalDataGridViewTextBoxColumn.Name = "dayTablePETotalDataGridViewTextBoxColumn";
+            this.dayTablePETotalDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // strikePriceTableGroupBox
             // 
@@ -549,53 +587,6 @@
             this.signalTableDataGridView.Size = new System.Drawing.Size(1214, 135);
             this.signalTableDataGridView.TabIndex = 0;
             // 
-            // signalTableGroupBox
-            // 
-            this.signalTableGroupBox.Controls.Add(this.signalTableDataGridView);
-            this.signalTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.signalTableGroupBox.Location = new System.Drawing.Point(10, 520);
-            this.signalTableGroupBox.Name = "signalTableGroupBox";
-            this.signalTableGroupBox.Size = new System.Drawing.Size(1230, 171);
-            this.signalTableGroupBox.TabIndex = 4;
-            this.signalTableGroupBox.TabStop = false;
-            this.signalTableGroupBox.Text = "Signal Table (10000.0 / 11000.0 - 1 mts)";
-            // 
-            // dayTableTimeDataGridViewTextBoxColumn
-            // 
-            this.dayTableTimeDataGridViewTextBoxColumn.Frozen = true;
-            this.dayTableTimeDataGridViewTextBoxColumn.HeaderText = "Time";
-            this.dayTableTimeDataGridViewTextBoxColumn.Name = "dayTableTimeDataGridViewTextBoxColumn";
-            this.dayTableTimeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.dayTableTimeDataGridViewTextBoxColumn.Width = 85;
-            // 
-            // dayTablePriceDataGridViewTextBoxColumn
-            // 
-            this.dayTablePriceDataGridViewTextBoxColumn.Frozen = true;
-            this.dayTablePriceDataGridViewTextBoxColumn.HeaderText = "Price";
-            this.dayTablePriceDataGridViewTextBoxColumn.Name = "dayTablePriceDataGridViewTextBoxColumn";
-            this.dayTablePriceDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // dayTableCETotalDataGridViewTextBoxColumn
-            // 
-            this.dayTableCETotalDataGridViewTextBoxColumn.Frozen = true;
-            this.dayTableCETotalDataGridViewTextBoxColumn.HeaderText = "CE Total";
-            this.dayTableCETotalDataGridViewTextBoxColumn.Name = "dayTableCETotalDataGridViewTextBoxColumn";
-            this.dayTableCETotalDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // dayTablePercentageDataGridViewTextBoxColumn
-            // 
-            this.dayTablePercentageDataGridViewTextBoxColumn.Frozen = true;
-            this.dayTablePercentageDataGridViewTextBoxColumn.HeaderText = "Percentage";
-            this.dayTablePercentageDataGridViewTextBoxColumn.Name = "dayTablePercentageDataGridViewTextBoxColumn";
-            this.dayTablePercentageDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // dayTablePETotalDataGridViewTextBoxColumn
-            // 
-            this.dayTablePETotalDataGridViewTextBoxColumn.Frozen = true;
-            this.dayTablePETotalDataGridViewTextBoxColumn.HeaderText = "PE Total";
-            this.dayTablePETotalDataGridViewTextBoxColumn.Name = "dayTablePETotalDataGridViewTextBoxColumn";
-            this.dayTablePETotalDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // timeDataGridViewTextBoxColumn
             // 
             this.timeDataGridViewTextBoxColumn.Frozen = true;
@@ -699,6 +690,23 @@
             this.profitDataGridViewTextBoxColumn.ReadOnly = true;
             this.profitDataGridViewTextBoxColumn.Width = 75;
             // 
+            // signalTableGroupBox
+            // 
+            this.signalTableGroupBox.Controls.Add(this.signalTableDataGridView);
+            this.signalTableGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.signalTableGroupBox.Location = new System.Drawing.Point(10, 520);
+            this.signalTableGroupBox.Name = "signalTableGroupBox";
+            this.signalTableGroupBox.Size = new System.Drawing.Size(1230, 171);
+            this.signalTableGroupBox.TabIndex = 4;
+            this.signalTableGroupBox.TabStop = false;
+            this.signalTableGroupBox.Text = "Signal Table (10000.0 / 11000.0 - 1 mts)";
+            // 
+            // refreshTimer
+            // 
+            this.refreshTimer.Enabled = true;
+            this.refreshTimer.Interval = 5000;
+            this.refreshTimer.Tick += new System.EventHandler(this.RefreshTimer_Tick);
+            // 
             // MarketTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -798,5 +806,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cmpDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn m2mDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn profitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Timer refreshTimer;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
@@ -19,6 +18,7 @@ namespace NSEDayMarketTracker
         const string EquitiesStockWatchURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
         const string NavigationMenuURL = "https://www.nseindia.com/common/xml/navigation.xml";
         const string NSEIndiaWebsiteURL = "https://www.nseindia.com";
+        const string VIXDetailsJSONURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/VixDetails.json";
 
         /// <summary>
         /// The constructor.
@@ -36,21 +36,28 @@ namespace NSEDayMarketTracker
         private void MarketTracker_Load(object sender, EventArgs e)
         {
             marketSelectComboBox.SelectedIndex = 0;
-            JObject niftyEquitiesStockWatchDataJObject = DownloadEquitiesStockWatchData();
+
+            // Download open close data and process
+            JObject niftyEquitiesStockWatchDataJObject = DownloadJSONDataFromURL(EquitiesStockWatchURL);
             int openMarketBaseNumber = SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
             SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
+
+            // Download VIX data and process
+            JObject vixDataJObject = DownloadJSONDataFromURL(VIXDetailsJSONURL);
+            SetVIXValues(vixDataJObject);
+
+            // Download live market data and process
             string liveMarketURL = GetLiveMarketURL();
             HtmlNodeCollection workSetRows = DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
             RenderStrikePriceDayTable(workSetRows);
-            //string[] ara = new string[7] { "Hello", "Hello", "Hello", "Hello", "Hello", "Hello", "Hello"};
-            //strikePriceTableDataGridView.Rows.Add(ara);
         }
 
         /// <summary>
-        /// Downloads equities stock watch JSON data from the web.
+        /// Downloads JSON data from the URL.
         /// </summary>
+        /// <param name="webResourceURL">The web resource URL of the JSON file.</param>
         /// <returns>JObject to readily read from.</returns>
-        private JObject DownloadEquitiesStockWatchData()
+        private JObject DownloadJSONDataFromURL(string webResourceURL)
         {
             string niftyStockWatchJSONString = string.Empty;
 
@@ -61,7 +68,7 @@ namespace NSEDayMarketTracker
                 webClient.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
 
                 // Download the data
-                niftyStockWatchJSONString = webClient.DownloadString(EquitiesStockWatchURL);
+                niftyStockWatchJSONString = webClient.DownloadString(webResourceURL);
 
                 // Serialise it into a JObject
                 JObject jObject = JObject.Parse(niftyStockWatchJSONString);
@@ -116,10 +123,8 @@ namespace NSEDayMarketTracker
         private void SetDateTimeWeek(JObject niftyEquitiesStockWatchJObject)
         {
             dateLabel.Text = niftyEquitiesStockWatchJObject["time"].ToString();
-
-            // Set the week number
-            CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-            int weekNumber = cultureInfo.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            int weekNumber = 1 | DateTime.Now.Day / 7;
+            weekNumber = (DateTime.Now.Day % 7 == 0) ? weekNumber - 1 : weekNumber;
             weekLabel.Text = "Week " + weekNumber;
         }
 
@@ -130,9 +135,15 @@ namespace NSEDayMarketTracker
         /// <param name="e">The current event object</param>
         private void RefreshMarketButton_Click(object sender, EventArgs e)
         {
-            JObject niftyEquitiesStockWatchDataJObject = DownloadEquitiesStockWatchData();
-            SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
+            refreshMarketButton.Text = "Refreshing...";
+            marketSelectComboBox.SelectedIndex = 0;
+            JObject niftyEquitiesStockWatchDataJObject = DownloadJSONDataFromURL(EquitiesStockWatchURL);
+            int openMarketBaseNumber = SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
             SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
+            string liveMarketURL = GetLiveMarketURL();
+            HtmlNodeCollection workSetRows = DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
+            RenderStrikePriceDayTable(workSetRows);
+            refreshMarketButton.Text = "Refresh";
         }
 
         /// <summary>
@@ -216,6 +227,7 @@ namespace NSEDayMarketTracker
         /// <param name="workSetRows">A collection of HTML nodes</param>
         private void RenderStrikePriceDayTable(HtmlNodeCollection workSetRows)
         {
+            strikePriceTableDataGridView.Rows.Clear();
             List<List<string>> strikePriceDayTableValues = new List<List<string>>();
 
             // Fetch the list of tds in the row
@@ -257,6 +269,40 @@ namespace NSEDayMarketTracker
                 // And render
                 strikePriceTableDataGridView.Rows.Add(currentValuesSet[0], currentValuesSet[1], currentValuesSet[2], currentValuesSet[3], currentValuesSet[4],
                     currentValuesSet[5], currentValuesSet[6]);
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the data after every 5 seconds.
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The current event object</param>
+        private void RefreshTimer_Tick(object sender, EventArgs eventArgs)
+        {
+            refreshMarketButton.PerformClick();
+        }
+
+        private void SetVIXValues(JObject vixJObject)
+        {
+            vixValueLabel.Text = vixJObject["currentVixSnapShot"][0]["CURRENT_PRICE"].ToString();
+            vixValuePercentageLabel.Text = vixJObject["currentVixSnapShot"][0]["PERC_CHANGE"].ToString();
+            string previousVIXClose = vixJObject["currentVixSnapShot"][0]["PREV_CLOSE"].ToString();
+
+            // Calculate percentage difference
+            //decimal difference = Convert.ToDecimal(vixValueLabel.Text) - Convert.ToDecimal(previousVIXClose);
+            //decimal percentage = Math.Round(difference / Convert.ToDecimal(vixValueLabel.Text) * 100, 2);
+            //string percentageDifference = "" + percentage;
+
+            // Set colours according to result
+            if(Convert.ToDecimal(vixValueLabel.Text) >= Convert.ToDecimal(previousVIXClose))
+            {
+                vixValueLabel.BackColor = Color.Green;
+                vixValuePercentageLabel.BackColor = Color.Green;
+            }
+            else
+            {
+                vixValueLabel.BackColor = Color.Red;
+                vixValuePercentageLabel.BackColor = Color.Red;
             }
         }
     }
