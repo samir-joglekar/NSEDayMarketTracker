@@ -20,6 +20,14 @@ namespace NSEDayMarketTracker
         const string NSEIndiaWebsiteURL = "https://www.nseindia.com";
         const string VIXDetailsJSONURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/VixDetails.json";
 
+        decimal baseNumber = 0;
+        decimal baseNumberPlus50 = 0;
+        decimal baseNumberPlus100 = 0;
+        decimal baseNumberPlus150 = 0;
+        decimal baseNumberPlus200 = 0;
+        decimal baseNumberMinus50 = 0;
+        decimal baseNumberMinus100 = 0;
+
         /// <summary>
         /// The constructor.
         /// </summary>
@@ -50,6 +58,8 @@ namespace NSEDayMarketTracker
             string liveMarketURL = GetLiveMarketURL();
             HtmlNodeCollection workSetRows = DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
             RenderStrikePriceDayTable(workSetRows);
+
+            // Update Day Table
         }
 
         /// <summary>
@@ -94,7 +104,7 @@ namespace NSEDayMarketTracker
             currentValuePercentageLabel.Text = percentageDifference;
 
             // Set colours according to result
-            if (Convert.ToDecimal(currentValueLabel.Text) >= Convert.ToDecimal(openValueLabel.Text))
+            if(Convert.ToDecimal(currentValueLabel.Text) >= Convert.ToDecimal(openValueLabel.Text))
             {
                 currentValueLabel.BackColor = Color.Green;
                 currentValuePercentageLabel.BackColor = Color.Green;
@@ -190,13 +200,13 @@ namespace NSEDayMarketTracker
         private HtmlNodeCollection DownloadNIFTYMarketData(string marketURL, int openMarketBaseNumber)
         {
             // Define the range
-            decimal baseNumber = Math.Round(Convert.ToDecimal(openMarketBaseNumber), 2);
-            decimal baseNumberPlus50 = baseNumber + 50;
-            decimal baseNumberPlus100 = baseNumber + 100;
-            decimal baseNumberPlus150 = baseNumber + 150;
-            decimal baseNumberPlus200 = baseNumber + 200;
-            decimal baseNumberMinus50 = baseNumber - 50;
-            decimal baseNumberMinus100 = baseNumber - 100;
+            baseNumber = Math.Round(Convert.ToDecimal(openMarketBaseNumber), 2);
+            baseNumberPlus50 = baseNumber + 50;
+            baseNumberPlus100 = baseNumber + 100;
+            baseNumberPlus150 = baseNumber + 150;
+            baseNumberPlus200 = baseNumber + 200;
+            baseNumberMinus50 = baseNumber - 50;
+            baseNumberMinus100 = baseNumber - 100;
 
             // Grab all rows
             var htmlWeb = new HtmlWeb();
@@ -229,6 +239,7 @@ namespace NSEDayMarketTracker
         {
             strikePriceTableDataGridView.Rows.Clear();
             List<List<string>> strikePriceDayTableValues = new List<List<string>>();
+            List<int> indicesOfRowsToHighlight = new List<int>();
 
             // Fetch the list of tds in the row
             foreach(HtmlNode currentWorkSetRow in workSetRows)
@@ -264,12 +275,90 @@ namespace NSEDayMarketTracker
                 currentValuesSet.RemoveAt(4);
                 currentValuesSet.RemoveAt(5);
                 currentValuesSet.Insert(0, "Dummy");
-                currentValuesSet.Add("Dummy");
+                currentValuesSet.Add("Put Writers");
 
                 // And render
                 strikePriceTableDataGridView.Rows.Add(currentValuesSet[0], currentValuesSet[1], currentValuesSet[2], currentValuesSet[3], currentValuesSet[4],
                     currentValuesSet[5], currentValuesSet[6]);
             }
+
+            // Find rows to highlight
+            foreach(DataGridViewRow currentRowCells in strikePriceTableDataGridView.Rows)
+            {
+                for(int currentRowCellsIndex = 0; currentRowCellsIndex < currentRowCells.Cells.Count; currentRowCellsIndex++)
+                {
+                    if(currentRowCells.Cells[1].Value.ToString().Contains("-"))
+                    {
+                        currentRowCells.Cells[0].Style.BackColor = Color.LightGreen;
+                        currentRowCells.Cells[0].Value = "CEW Exiting";
+                    }
+                    else
+                    {
+                        currentRowCells.Cells[0].Style.BackColor = Color.PaleVioletRed;
+                        currentRowCells.Cells[0].Value = "Call Writers";
+                    }
+                    currentRowCells.Cells[6].Style.BackColor = Color.LightGreen;
+                }
+
+                foreach(DataGridViewCell currentRowCell in currentRowCells.Cells)
+                {
+                    if(currentRowCell.Value.Equals(baseNumber.ToString() + ".00") || currentRowCell.Value.Equals(baseNumberPlus50.ToString() + ".00")
+                        || currentRowCell.Value.Equals(baseNumberPlus100.ToString() + ".00"))
+                    {
+                        indicesOfRowsToHighlight.Add(currentRowCell.RowIndex);
+                    }
+                }
+            }
+
+            // Highlight range cells with blue
+            foreach(int rowIndex in indicesOfRowsToHighlight)
+            {
+                DataGridViewRow currentRowCells = strikePriceTableDataGridView.Rows[rowIndex];
+
+                foreach(DataGridViewCell currentRowCell in currentRowCells.Cells)
+                {
+                    if(!(currentRowCell.Value.ToString().Equals("CEW Exiting") || currentRowCell.Value.ToString().Equals("Call Writers")
+                        || currentRowCell.Value.ToString().Equals("Put Writers")))
+                    {
+                        currentRowCell.Style.BackColor = Color.LightBlue;
+                    }
+                }
+            }
+
+            UpdateDayTable(indicesOfRowsToHighlight);
+        }
+
+        /// <summary>
+        /// Updates day table with rows.
+        /// </summary>
+        /// <param name="rowsIndex">The list of rows indices with which to work upon.</param>
+        private void UpdateDayTable(List<int> rowsIndex)
+        {
+            List<string> ceValues = new List<string>();
+            List<string> peValues = new List<string>();
+
+            foreach(int currentRowIndex in rowsIndex)
+            {
+                DataGridViewRow currentHighlightedRowCells = strikePriceTableDataGridView.Rows[currentRowIndex];
+                ceValues.Add(currentHighlightedRowCells.Cells[1].Value.ToString());
+                peValues.Add(currentHighlightedRowCells.Cells[5].Value.ToString());
+            }
+
+            int ceTotal = 0;
+            int peTotal = 0;
+
+            foreach(string currentCEValue in ceValues)
+            {
+                ceTotal += Int32.Parse(currentCEValue.Replace(",", ""));
+            }
+
+            foreach(string currentPEValue in peValues)
+            {
+                peTotal += Int32.Parse(currentPEValue.Replace(",", ""));
+            }
+
+            int percentage = (peTotal - ceTotal) / ceTotal * 100;
+            dayTableDataGridView.Rows.Add(DateTime.Now.ToLocalTime().ToLongTimeString(), currentValueLabel.Text, ceTotal, percentage, peTotal);
         }
 
         /// <summary>
@@ -282,6 +371,10 @@ namespace NSEDayMarketTracker
             refreshMarketButton.PerformClick();
         }
 
+        /// <summary>
+        /// Sets values for VIX.
+        /// </summary>
+        /// <param name="vixJObject"></param>
         private void SetVIXValues(JObject vixJObject)
         {
             vixValueLabel.Text = vixJObject["currentVixSnapShot"][0]["CURRENT_PRICE"].ToString();
@@ -289,9 +382,9 @@ namespace NSEDayMarketTracker
             string previousVIXClose = vixJObject["currentVixSnapShot"][0]["PREV_CLOSE"].ToString();
 
             // Calculate percentage difference
-            //decimal difference = Convert.ToDecimal(vixValueLabel.Text) - Convert.ToDecimal(previousVIXClose);
-            //decimal percentage = Math.Round(difference / Convert.ToDecimal(vixValueLabel.Text) * 100, 2);
-            //string percentageDifference = "" + percentage;
+            decimal difference = Convert.ToDecimal(vixValueLabel.Text) - Convert.ToDecimal(previousVIXClose);
+            decimal percentage = Math.Round(difference / Convert.ToDecimal(vixValueLabel.Text) * 100, 2);
+            string percentageDifference = "" + percentage;
 
             // Set colours according to result
             if(Convert.ToDecimal(vixValueLabel.Text) >= Convert.ToDecimal(previousVIXClose))
