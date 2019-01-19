@@ -15,19 +15,20 @@ namespace NSEDayMarketTracker
     /// </summary>
     public partial class MarketTracker : Form
     {
-        const string EquitiesStockWatchURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
-        const string NavigationMenuURL = "https://www.nseindia.com/common/xml/navigation.xml";
-        const string NSEIndiaWebsiteURL = "https://www.nseindia.com";
-        const string VIXDetailsJSONURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/VixDetails.json";
+        private const string NSEIndiaWebsiteURL = "https://www.nseindia.com";
+        private const string NIFTYStockWatchURL = NSEIndiaWebsiteURL + "/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
+        private const string BankNIFTYStockWatchURL = NSEIndiaWebsiteURL + "/live_market/dynaContent/live_watch/stock_watch/bankNiftyStockWatch.json";
+        private const string NavigationMenuURL = NSEIndiaWebsiteURL + "/common/xml/navigation.xml";
+        private const string VIXDetailsJSONURL = NSEIndiaWebsiteURL + "/live_market/dynaContent/live_watch/VixDetails.json";
 
-        decimal baseNumber = 0;
-        decimal baseNumberPlus50 = 0;
-        decimal baseNumberPlus100 = 0;
-        decimal baseNumberPlus150 = 0;
-        decimal baseNumberPlus200 = 0;
-        decimal baseNumberMinus50 = 0;
-        decimal baseNumberMinus100 = 0;
-
+        private decimal baseNumber = 0;
+        private decimal baseNumberPlus50 = 0;
+        private decimal baseNumberPlus100 = 0;
+        private decimal baseNumberPlus150 = 0;
+        private decimal baseNumberPlus200 = 0;
+        private decimal baseNumberMinus50 = 0;
+        private decimal baseNumberMinus100 = 0;
+ 
         /// <summary>
         /// The constructor.
         /// </summary>
@@ -43,23 +44,7 @@ namespace NSEDayMarketTracker
         /// <param name="e">The current event object</param>
         private void MarketTracker_Load(object sender, EventArgs e)
         {
-            marketSelectComboBox.SelectedIndex = 0;
-
-            // Download open close data and process
-            JObject niftyEquitiesStockWatchDataJObject = DownloadJSONDataFromURL(EquitiesStockWatchURL);
-            int openMarketBaseNumber = SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
-            SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
-
-            // Download VIX data and process
-            JObject vixDataJObject = DownloadJSONDataFromURL(VIXDetailsJSONURL);
-            SetVIXValues(vixDataJObject);
-
-            // Download live market data and process
-            string liveMarketURL = GetLiveMarketURL();
-            HtmlNodeCollection workSetRows = DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
-            RenderStrikePriceDayTable(workSetRows);
-
-            // Update Day Table
+            refreshMarketButton.Visible = false;
         }
 
         /// <summary>
@@ -69,19 +54,20 @@ namespace NSEDayMarketTracker
         /// <returns>JObject to readily read from.</returns>
         private JObject DownloadJSONDataFromURL(string webResourceURL)
         {
-            string niftyStockWatchJSONString = string.Empty;
+            string stockWatchJSONString = string.Empty;
 
-            using (var webClient = new WebClient())
+            using(var webClient = new WebClient())
             {
                 // Set headers to download the data
                 webClient.Headers.Add("Accept: text/html, application/xhtml+xml, */*");
                 webClient.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
 
                 // Download the data
-                niftyStockWatchJSONString = webClient.DownloadString(webResourceURL);
+                stockWatchJSONString = webClient.DownloadString(webResourceURL);
 
                 // Serialise it into a JObject
-                JObject jObject = JObject.Parse(niftyStockWatchJSONString);
+                JObject jObject = JObject.Parse(stockWatchJSONString);
+
                 return jObject;
             }
         }
@@ -89,13 +75,13 @@ namespace NSEDayMarketTracker
         /// <summary>
         /// Sets market open and close values.
         /// </summary>
-        /// <param name="niftyEquitiesStockWatchJObject">The JObject to read from.</param>
+        /// <param name="equitiesStockWatchJObject">The JObject to read from.</param>
         /// <returns>The open market base number.</returns>
-        private int SetMarketOpenCloseValues(JObject niftyEquitiesStockWatchJObject)
+        private int SetMarketOpenCloseValues(JObject equitiesStockWatchJObject)
         {
             int openMarketBaseNumber = 0;
-            openValueLabel.Text = niftyEquitiesStockWatchJObject["latestData"][0]["open"].ToString();
-            currentValueLabel.Text = niftyEquitiesStockWatchJObject["latestData"][0]["ltp"].ToString();
+            openValueLabel.Text = equitiesStockWatchJObject["latestData"][0]["open"].ToString();
+            currentValueLabel.Text = equitiesStockWatchJObject["latestData"][0]["ltp"].ToString();
 
             // Calculate percentage difference
             decimal difference = Convert.ToDecimal(currentValueLabel.Text) - Convert.ToDecimal(openValueLabel.Text);
@@ -129,10 +115,10 @@ namespace NSEDayMarketTracker
         /// <summary>
         /// Sets the date, time and the week for the data.
         /// </summary>
-        /// <param name="niftyEquitiesStockWatchJObject">The JObject to read from.</param>
-        private void SetDateTimeWeek(JObject niftyEquitiesStockWatchJObject)
+        /// <param name="equitiesStockWatchJObject">The JObject to read from.</param>
+        private void SetDateTimeWeek(JObject equitiesStockWatchJObject)
         {
-            dateLabel.Text = niftyEquitiesStockWatchJObject["time"].ToString();
+            dateLabel.Text = equitiesStockWatchJObject["time"].ToString();
             int weekNumber = 1 | DateTime.Now.Day / 7;
             weekNumber = (DateTime.Now.Day % 7 == 0) ? weekNumber - 1 : weekNumber;
             weekLabel.Text = "Week " + weekNumber;
@@ -141,18 +127,39 @@ namespace NSEDayMarketTracker
         /// <summary>
         /// Refreshes the data and resets all the values to the UI.
         /// </summary>
-        /// <param name="sender">The sender object</param>
+        /// <param name="sender">The sender object</param>*
         /// <param name="e">The current event object</param>
         private void RefreshMarketButton_Click(object sender, EventArgs e)
         {
             refreshMarketButton.Text = "Refreshing...";
-            marketSelectComboBox.SelectedIndex = 0;
-            JObject niftyEquitiesStockWatchDataJObject = DownloadJSONDataFromURL(EquitiesStockWatchURL);
-            int openMarketBaseNumber = SetMarketOpenCloseValues(niftyEquitiesStockWatchDataJObject);
-            SetDateTimeWeek(niftyEquitiesStockWatchDataJObject);
+            JObject equitiesStockWatchDataJObject = null;
+
+            if(marketSelectComboBox.SelectedItem.ToString() == "NIFTY")
+            {
+                equitiesStockWatchDataJObject = DownloadJSONDataFromURL(NIFTYStockWatchURL);
+            }
+            else if(marketSelectComboBox.SelectedItem.ToString() == "Bank NIFTY")
+            {
+                equitiesStockWatchDataJObject = DownloadJSONDataFromURL(BankNIFTYStockWatchURL);
+            }
+            int openMarketBaseNumber = SetMarketOpenCloseValues(equitiesStockWatchDataJObject);
+
+            SetDateTimeWeek(equitiesStockWatchDataJObject);
+
             string liveMarketURL = GetLiveMarketURL();
-            HtmlNodeCollection workSetRows = DownloadNIFTYMarketData(liveMarketURL, openMarketBaseNumber);
-            RenderStrikePriceDayTable(workSetRows);
+
+            if(marketSelectComboBox.SelectedItem.ToString() == "NIFTY")
+            {
+                HtmlNodeCollection workSetRows = DownloadMarketData(liveMarketURL, openMarketBaseNumber);
+                RenderStrikePriceDayTable(workSetRows);
+            }
+            else if(marketSelectComboBox.SelectedItem.ToString() == "Bank NIFTY")
+            {
+                string bankNIFTYMarketURL = GetBankNIFTYMarketURL(liveMarketURL);
+                HtmlNodeCollection workSetRows = DownloadMarketData(bankNIFTYMarketURL, openMarketBaseNumber);
+                RenderStrikePriceDayTable(workSetRows);
+            }
+            
             refreshMarketButton.Text = "Refresh";
         }
 
@@ -162,6 +169,7 @@ namespace NSEDayMarketTracker
         /// <returns>The live market URL</returns>
         private string GetLiveMarketURL()
         {
+            string marketvalue = marketSelectComboBox.SelectedItem.ToString();
             string navigationXML = string.Empty;
             string liveMarketURL = string.Empty;
 
@@ -177,6 +185,7 @@ namespace NSEDayMarketTracker
                 {
                     IgnoreWhitespace = true
                 };
+
                 using(XmlReader xmlReader = XmlReader.Create(new StringReader(navigationXML), xmlReaderSettings))
                 {
                     xmlReader.MoveToContent();
@@ -186,6 +195,7 @@ namespace NSEDayMarketTracker
                     xmlReader.ReadToNextSibling("submenu");
                     xmlReader.ReadToDescendant("submenuitem");
                     liveMarketURL = xmlReader.GetAttribute("link");
+
                     return NSEIndiaWebsiteURL + liveMarketURL;
                 }
             }
@@ -197,7 +207,7 @@ namespace NSEDayMarketTracker
         /// <param name="marketURL">The market URL</param>
         /// <param name="openMarketBaseNumber">The open market base number</param>
         /// <returns>HtmlNodeCollection</returns>
-        private HtmlNodeCollection DownloadNIFTYMarketData(string marketURL, int openMarketBaseNumber)
+        private HtmlNodeCollection DownloadMarketData(string marketURL, int openMarketBaseNumber)
         {
             // Define the range
             baseNumber = Math.Round(Convert.ToDecimal(openMarketBaseNumber), 2);
@@ -211,6 +221,7 @@ namespace NSEDayMarketTracker
             // Grab all rows
             var htmlWeb = new HtmlWeb();
             HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.Load(marketURL);
+
             HtmlNodeCollection tableRows = htmlDocument.DocumentNode.SelectNodes("//table[@id=\"octable\"]//tr");
             tableRows.RemoveAt(tableRows.Count - 1);
             tableRows.RemoveAt(0);
@@ -218,7 +229,7 @@ namespace NSEDayMarketTracker
 
             // Get only those rows which contain values for the defined tange
             HtmlNodeCollection workSetRows = new HtmlNodeCollection(null);
-            foreach (var currentTableRow in tableRows)
+            foreach(var currentTableRow in tableRows)
             {
                 if(currentTableRow.InnerHtml.Contains(baseNumber.ToString()) || currentTableRow.InnerHtml.Contains(baseNumberPlus50.ToString())
                     || currentTableRow.InnerHtml.Contains(baseNumberPlus100.ToString()) || currentTableRow.InnerHtml.Contains(baseNumberMinus50.ToString())
@@ -228,7 +239,32 @@ namespace NSEDayMarketTracker
                     workSetRows.Add(currentTableRow);
                 }
             }
+
             return workSetRows;
+        }
+
+        /// <summary>
+        /// Returns the Bank NIFTY page URL from the main market URL JavaScript snippet.
+        /// </summary>
+        /// <param name="marketURL">The market URL for Bank NIFTY.</param>
+        /// <returns>The Bank NIFTY URL.</returns>
+        private string GetBankNIFTYMarketURL(string marketURL)
+        {
+            // Load the web page and get the JavaScript
+            var htmlWeb = new HtmlWeb();
+            HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.Load(marketURL);
+            HtmlNodeCollection scriptTags = htmlDocument.DocumentNode.SelectNodes("//script[@type=\"text/javascript\"]");
+            string bankNIFTYMarketURL = scriptTags[5].InnerHtml;
+
+            // Process the JavaScript and get the Bank NIFTY URL
+            bankNIFTYMarketURL = bankNIFTYMarketURL.Replace("\r\n", "");
+            bankNIFTYMarketURL = bankNIFTYMarketURL.Replace("\t", "");
+            bankNIFTYMarketURL = bankNIFTYMarketURL.Remove(0, bankNIFTYMarketURL.IndexOf("BANKNIFTY"));
+            bankNIFTYMarketURL = bankNIFTYMarketURL.Remove(0, 28);
+            bankNIFTYMarketURL = bankNIFTYMarketURL.Remove(bankNIFTYMarketURL.IndexOf(";"), bankNIFTYMarketURL.Length - bankNIFTYMarketURL.IndexOf(";"));
+            bankNIFTYMarketURL = bankNIFTYMarketURL.Replace("'", "");
+
+            return NSEIndiaWebsiteURL + "/" + bankNIFTYMarketURL;
         }
 
         /// <summary>
@@ -368,7 +404,11 @@ namespace NSEDayMarketTracker
         /// <param name="e">The current event object</param>
         private void RefreshTimer_Tick(object sender, EventArgs eventArgs)
         {
-            refreshMarketButton.PerformClick();
+            if(marketSelectComboBox.SelectedItem != null)
+            {
+                refreshMarketButton.Visible = true;
+                refreshMarketButton.PerformClick();
+            }
         }
 
         /// <summary>
