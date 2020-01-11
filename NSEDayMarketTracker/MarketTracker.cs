@@ -15,7 +15,7 @@ namespace NSEDayMarketTracker
     /// </summary>
     public partial class MarketTracker : Form
     {
-        private const string NSEIndiaWebsiteURL = "https://www.nseindia.com";
+        private const string NSEIndiaWebsiteURL = "https://www1.nseindia.com";
         private const string NIFTYStockWatchURL = NSEIndiaWebsiteURL + "/live_market/dynaContent/live_watch/stock_watch/niftyStockWatch.json";
         private const string BankNIFTYStockWatchURL = NSEIndiaWebsiteURL + "/live_market/dynaContent/live_watch/stock_watch/bankNiftyStockWatch.json";
         private const string NavigationMenuURL = NSEIndiaWebsiteURL + "/common/xml/navigation.xml";
@@ -46,7 +46,7 @@ namespace NSEDayMarketTracker
         {
             refreshMarketButton.Visible = false;
         }
-
+    
         /// <summary>
         /// Downloads JSON data from the URL.
         /// </summary>
@@ -220,7 +220,7 @@ namespace NSEDayMarketTracker
 
             // Grab all rows
             var htmlWeb = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.Load(marketURL);
+            HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.LoadFromBrowser(marketURL);
 
             HtmlNodeCollection tableRows = htmlDocument.DocumentNode.SelectNodes("//table[@id=\"octable\"]//tr");
             tableRows.RemoveAt(tableRows.Count - 1);
@@ -252,9 +252,9 @@ namespace NSEDayMarketTracker
         {
             // Load the web page and get the JavaScript
             var htmlWeb = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.Load(marketURL);
+            HtmlAgilityPack.HtmlDocument htmlDocument = htmlWeb.LoadFromBrowser(marketURL);
             HtmlNodeCollection scriptTags = htmlDocument.DocumentNode.SelectNodes("//script[@type=\"text/javascript\"]");
-            string bankNIFTYMarketURL = scriptTags[5].InnerHtml;
+            string bankNIFTYMarketURL = scriptTags[17].InnerHtml;
 
             // Process the JavaScript and get the Bank NIFTY URL
             bankNIFTYMarketURL = bankNIFTYMarketURL.Replace("\r\n", "");
