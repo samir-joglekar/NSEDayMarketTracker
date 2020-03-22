@@ -704,7 +704,7 @@
             // refreshTimer
             // 
             this.refreshTimer.Enabled = true;
-            this.refreshTimer.Interval = 5000;
+            this.refreshTimer.Interval = 30000;
             this.refreshTimer.Tick += new System.EventHandler(this.RefreshTimer_Tick);
             // 
             // MarketTracker
